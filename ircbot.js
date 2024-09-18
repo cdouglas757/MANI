@@ -1,13 +1,12 @@
 //#region requires
 const irc = require('irc');
-const discordBot = require('./discordBot');
+const discordBot = require('./discordbot');
 //#endregion
 
 
 //#region vars
 
 var botName = 'MANI';
-var password = process.env.IRC_BOT_PASSWORD;
 var ircServer = 'irc.mafiareturns.com';
 var channel = '#main';
 var userToListenTo = 'MRBot';
@@ -20,7 +19,6 @@ var ratCancelled = false;
 var client = new irc.Client(ircServer, botName, {});
 
 client.addListener('registered', function () {
-    client.say('nickserv', 'identify ' + password);
     client.join(channel);
 
     discordBot.DiscordLogin(function (success) {
