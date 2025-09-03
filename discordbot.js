@@ -11,6 +11,7 @@ const client = new Client({
 var currentRAT;
 var ratRoleTag = "<@&" + process.env.DISCORD_ROLE_ID + ">";
 var durdenRoleTag = "<@&" + process.env.DISCORD_DURDEN_ROLE_ID + ">";
+var rebuildRoleTag = "<@&" + process.env.DISCORD_REBUILD_ROLE_ID + ">";
 
 module.exports = {
 
@@ -54,10 +55,16 @@ module.exports = {
         }
     },
 
-    PingDurdenRole: function (message) {
+    PingDurdenRole: function () {
         var notificationChannel = client.channels.cache.get(process.env.DISCORD_CHANNEL_ID);
 
         notificationChannel.send("Durdens have spawned. " + durdenRoleTag);
+    },
+
+    PingRebuildRole: function (message) {
+        var notificationChannel = client.channels.cache.get(process.env.DISCORD_CHANNEL_ID);
+
+        notificationChannel.send(message + rebuildRoleTag);
     }
 
 }

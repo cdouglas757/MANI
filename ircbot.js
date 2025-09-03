@@ -13,6 +13,7 @@ var userToListenTo = 'MRBot';
 var remainingRATS = 0;
 var discordConnected = false;
 var ratCancelled = false;
+var rebuildModeOn = false;
 //#endregion
 
 
@@ -39,7 +40,7 @@ client.addListener('message', function (from, to, message) {
 
     if (message.includes("A RAT event has been spawned")) {
         console.log('RAT has started');
-        if (discordConnected) {
+        if (!rebuildModeOn && discordConnected) {
             discordBot.StartRAT();
         }
         return;
@@ -57,6 +58,9 @@ client.addListener('message', function (from, to, message) {
         console.log('RAT has been cancelled');
         ratCancelled = true;
         remainingRATS = 0;
+        if (discordConnected) {
+            discordBot.EndRAT();
+        }
         return;
     }
 
@@ -96,6 +100,29 @@ client.addListener('message', function (from, to, message) {
     if (message.includes("First blood has been drawn in the war against the TylerDurden crew")) {
         if (discordConnected) {
             discordBot.PingDurdenRole();   
+        }
+        return;
+    }
+
+    if (message.includes("Possible rebuild mode pending.")) {
+        if (discordConnected) {
+            discordBot.PingRebuildRole('Possible rebuild mode pending.');   
+        }
+        return;
+    }
+
+    if (message.includes("Extending rebuild time.")) {
+        rebuildModeOn = true;
+        if (discordConnected) {
+            discordBot.PingRebuildRole('Rebuild time extended');   
+        }
+        return;
+    }
+
+    if (message.includes("Rebuild mode is OFF")) {
+        rebuildModeOn = false;
+        if (discordConnected) {
+            discordBot.PingRebuildRole('Rebuild time extended');   
         }
         return;
     }
