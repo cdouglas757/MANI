@@ -76,6 +76,7 @@ client.addListener('message', function (from, to, message) {
                 return;
             }
 
+            rebuildModeOn = false;
             remainingRATS = parseInt(matches[0]);
             console.log(remainingRATS + ' remaining');
             if (discordConnected) {
@@ -113,14 +114,6 @@ client.addListener('message', function (from, to, message) {
 
     if (message.includes("Extending rebuild time.")) {
         rebuildModeOn = true;
-        if (discordConnected) {
-            discordBot.PingRebuildRole('Rebuild time extended');   
-        }
-        return;
-    }
-
-    if (message.includes("Rebuild mode is OFF")) {
-        rebuildModeOn = false;
         if (discordConnected) {
             discordBot.PingRebuildRole('Rebuild time extended');   
         }
